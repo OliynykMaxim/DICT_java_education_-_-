@@ -26,6 +26,56 @@ public class TicTacToe {
             System.out.println("|");
         }
         System.out.println("---------");
+
+        // Аналіз стану гри
+        boolean xWins = checkWinner(input, 'X');
+        boolean oWins = checkWinner(input, 'O');
+        boolean impossible = isImpossible(input);
+
+        if (impossible) {
+            System.out.println("Impossible");
+        } else if (xWins) {
+            System.out.println("X wins");
+        } else if (oWins) {
+            System.out.println("O wins");
+        } else if (input.contains("_")) {
+            System.out.println("Game not finished");
+        } else {
+            System.out.println("Draw");
+        }
+    }
+
+    // Перевірка переможця
+    public static boolean checkWinner(String cells, char symbol) {
+        // Перевірка рядків, стовпців та діагоналей
+        return (cells.charAt(0) == symbol && cells.charAt(1) == symbol && cells.charAt(2) == symbol) ||
+                (cells.charAt(3) == symbol && cells.charAt(4) == symbol && cells.charAt(5) == symbol) ||
+                (cells.charAt(6) == symbol && cells.charAt(7) == symbol && cells.charAt(8) == symbol) ||
+                (cells.charAt(0) == symbol && cells.charAt(3) == symbol && cells.charAt(6) == symbol) ||
+                (cells.charAt(1) == symbol && cells.charAt(4) == symbol && cells.charAt(7) == symbol) ||
+                (cells.charAt(2) == symbol && cells.charAt(5) == symbol && cells.charAt(8) == symbol) ||
+                (cells.charAt(0) == symbol && cells.charAt(4) == symbol && cells.charAt(8) == symbol) ||
+                (cells.charAt(2) == symbol && cells.charAt(4) == symbol && cells.charAt(6) == symbol);
+    }
+
+    // Перевірка неможливості стану гри
+    public static boolean isImpossible(String cells) {
+        int countX = 0;
+        int countO = 0;
+
+        for (char cell : cells.toCharArray()) {
+            if (cell == 'X') {
+                countX++;
+            } else if (cell == 'O') {
+                countO++;
+            }
+        }
+
+        int diff = Math.abs(countX - countO);
+        boolean xWins = checkWinner(cells, 'X');
+        boolean oWins = checkWinner(cells, 'O');
+
+        return (xWins && oWins) || diff >= 2;
     }
 }
 
